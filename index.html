@@ -4,135 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Meku ❤️</title>
-
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
   <style>
     :root {
-      --bg1: #ffd6e7;
-      --bg2: #ffeef6;
-      --card: #ffffffcc;
-      --yes: #ff3b7a;
-      --yesHover: #ff1f68;
+      --bg1: #ffd6e7; --bg2: #ffeef6; --card: #ffffffcc; --yes: #ff3b7a;
     }
-
-    * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
       background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
     }
-
-    #confettiCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 999;
-    }
-
     .card {
-      width: min(450px, 90vw);
-      padding: 40px 20px;
-      background: var(--card);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 30px;
-      text-align: center;
-      box-shadow: 0 20px 50px rgba(255, 59, 122, 0.15);
-      z-index: 10;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      width: min(480px, 92vw); padding: 30px; background: var(--card);
+      backdrop-filter: blur(12px); border-radius: 30px; text-align: center;
+      box-shadow: 0 20px 50px rgba(255, 59, 122, 0.15); border: 1px solid white;
     }
-
-    .art {
-      width: 180px;
-      margin: 0 auto 20px;
-      display: block;
-    }
-
-    h1 {
-      font-size: 28px;
-      color: #444;
-      margin-bottom: 40px;
-      line-height: 1.4;
-    }
-
-    .button-zone {
-      position: relative;
-      height: 200px;
-      width: 100%;
-    }
-
+    .button-zone { position: relative; height: 180px; width: 100%; margin-top: 20px; }
     button {
-      position: absolute;
-      padding: 15px 40px;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      position: absolute; padding: 15px 35px; font-size: 18px; font-weight: bold;
+      border-radius: 50px; border: none; cursor: pointer; transition: 0.2s;
     }
+    #yesBtn { left: 10%; top: 40%; background: var(--yes); color: white; z-index: 100; }
+    #noBtn { right: 10%; top: 40%; background: #eee; color: #555; }
+    #reasonText { font-style: italic; color: #ff3b7a; height: 20px; margin-top: 10px; font-size: 14px; }
+    
+    /* Result Section */
+    .result { display: none; animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .date-card {
+      background: white; border: 2px dashed #ff3b7a; padding: 20px;
+      border-radius: 15px; margin-top: 20px; text-align: left;
+    }
+    .date-card h3 { color: #ff3b7a; margin-top: 0; text-align: center; border-bottom: 1px solid #ffd6e7; padding-bottom: 10px; }
+    .date-line { margin: 10px 0; font-size: 16px; color: #444; }
+    .date-line b { color: #ff3b7a; }
 
-    #yesBtn {
-      left: 10%;
-      top: 40%;
-      transform: translateY(-50%);
-      background: var(--yes);
-      color: white;
-      z-index: 100;
-    }
-
-    #noBtn {
-      right: 10%;
-      top: 40%;
-      transform: translateY(-50%);
-      background: #eee;
-      color: #555;
-    }
-
-    .result {
-      display: none;
-      animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .fireworks {
-      width: 100%;
-      max-width: 250px;
-      border-radius: 20px;
-      margin-top: 20px;
-    }
+    @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   </style>
 </head>
 <body>
 
-  <canvas id="confettiCanvas"></canvas>
+  <canvas id="confettiCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:999"></canvas>
 
   <main class="card">
     <div id="questionArea">
-      <svg class="art" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <path d="M120 150 C120 100 170 70 220 90 C270 70 320 100 320 150 C320 210 270 240 220 240 C170 240 120 210 120 150Z" fill="#f7c7a1"/>
-        <circle cx="190" cy="160" r="8" fill="#333"/>
-        <circle cx="250" cy="160" r="8" fill="#333"/>
-        <path d="M220 174 C216 174 212 178 212 182 C212 190 220 194 220 200 C220 194 228 190 228 182 C228 178 224 174 220 174Z" fill="#ff7aa2"/>
-        <path d="M312 48 C324 35 344 43 344 60 C344 88 312 102 312 116 C312 102 280 88 280 60 C280 43 300 35 312 48Z" fill="#ff3b7a">
-          <animate attributeName="transform" type="translate" values="0,0; 0,-15; 0,0" dur="1.5s" repeatCount="indefinite" />
-        </path>
-      </svg>
-
-      <h1>Meku, will you be my valentine?</h1>
+      <h1 id="mainTitle">Meku, will you be my Valentine?</h1>
+      <p id="reasonText">I have so many reasons to ask...</p>
       
       <div class="button-zone" id="zone">
         <button id="yesBtn">Yes</button>
@@ -141,8 +57,18 @@
     </div>
 
     <div class="result" id="result">
-      <h1 style="color: var(--yes);">YAY! ❤️<br>ILY!</h1>
-      <img class="fireworks" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHZueW00bm5pZzR3dzR3dzR3dzR3dzR3dzR3dzR3dzR3dzR3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/26ufdipQqU2lhNA4g/giphy.gif" alt="celebration">
+      <h1>YAY! ❤️ See you then!</h1>
+      
+      <div class="date-card">
+        <h3>Valentine's Date Invite 💌</h3>
+        <div class="date-line">📅 <b>Date:</b> February 14, 2026</div>
+        <div class="date-line">📍 <b>Location:</b> Our Favorite Spot</div>
+        <div class="date-line">⏰ <b>Time:</b> 7:00 PM</div>
+        <div class="date-line">✨ <b>Activity:</b> A perfect evening together</div>
+        <p style="font-size: 12px; text-align: center; color: #999; margin-top: 15px;">*Dress code: Your beautiful smile*</p>
+      </div>
+      
+      <img style="width:100%; max-width:200px; margin-top:20px; border-radius:10px;" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHZueW00bm5pZzR3dzR3dzR3dzR3dzR3dzR3dzR3dzR3dzR3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/26ufdipQqU2lhNA4g/giphy.gif">
     </div>
   </main>
 
@@ -152,39 +78,44 @@
     const questionArea = document.getElementById('questionArea');
     const result = document.getElementById('result');
     const zone = document.getElementById('zone');
+    const reasonText = document.getElementById('reasonText');
+
+    const reasons = [
+        "Because you're amazing!",
+        "Because you make me laugh",
+        "Because I love your smile",
+        "Because you're my best friend",
+        "Because you're one of a kind",
+        "Because you're my favorite person"
+    ];
 
     let scale = 1;
+    let reasonIndex = 0;
 
     function moveNo() {
-      const z = zone.getBoundingClientRect();
-      const b = noBtn.getBoundingClientRect();
-      
-      const x = Math.random() * (z.width - b.width);
-      const y = Math.random() * (z.height - b.height);
-      
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-      
-      scale += 0.25;
-      yesBtn.style.transform = `translateY(-50%) scale(${scale})`;
+        const z = zone.getBoundingClientRect();
+        const b = noBtn.getBoundingClientRect();
+        const x = Math.random() * (z.width - b.width);
+        const y = Math.random() * (z.height - b.height);
+        
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+        
+        // Change the reason text
+        reasonText.innerText = reasons[reasonIndex];
+        reasonIndex = (reasonIndex + 1) % reasons.length;
+
+        scale += 0.2;
+        yesBtn.style.transform = `translateY(-50%) scale(${scale})`;
     }
 
     noBtn.addEventListener('mouseover', moveNo);
-    noBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        moveNo();
-    });
+    noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); });
 
     yesBtn.addEventListener('click', () => {
-      questionArea.style.display = 'none';
-      result.style.display = 'block';
-      
-      const end = Date.now() + 3000;
-      (function frame() {
-        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff3b7a'] });
-        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff3b7a'] });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      }());
+        questionArea.style.display = 'none';
+        result.style.display = 'block';
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     });
   </script>
 </body>
